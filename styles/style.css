@@ -1,0 +1,209 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400&family=Roboto:wght@100;400&display=swap");
+:root {
+  --Oxygen: "Oxygen", sans-serif;
+  --Roboto: "Roboto", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../30ff0b76e0e9ff5d87a69bae695f7278-1440.webp");
+  background-size: cover;
+  background-position: 0% 50%;
+  display: flex;
+}
+
+.main-left-container {
+  height: 100vh;
+  width: 30%;
+}
+
+.main-center-container {
+  height: 100vh;
+  width: 40%;
+}
+
+.main-right-container {
+  height: 100vh;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-content: center;
+}
+
+.weather-widget {
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 250px;
+  padding: 10px;
+  margin: 20px auto;
+  background-color: rgba(0, 0, 0, 0.3568627451);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  border: 2px solid #808080;
+  color: #fff;
+  border-radius: 6px;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.3fr 1.8fr 0.9fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas: "condition-text city" "condition-icon temprature" "high-low extra";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.weather-widget .condition-text {
+  grid-area: condition-text;
+  font-size: 24px;
+}
+.weather-widget .city {
+  font-size: 24px;
+  grid-area: city;
+}
+.weather-widget .condition-icon {
+  grid-area: condition-icon;
+}
+.weather-widget .temprature {
+  grid-area: temprature;
+  font-size: 28px;
+  padding-top: 15px;
+}
+.weather-widget .high-low {
+  grid-area: high-low;
+}
+.weather-widget .extra {
+  grid-area: extra;
+}
+
+.shortcuts-widget {
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 90%;
+  background-color: rgba(255, 255, 255, 0.3882352941);
+  margin: auto;
+  padding: 10px 0px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.shortcuts-widget .shortcut {
+  height: 60px;
+  width: 60px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  padding-top: 7px;
+  margin: 5px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.shortcuts-widget .shortcut:hover {
+  box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.231372549);
+}
+.shortcuts-widget .shortcut img {
+  height: 45px;
+  width: 45px;
+}
+
+.time-widget {
+  margin: 30px auto;
+  width: 90%;
+  text-align: center;
+}
+.time-widget h1 {
+  font: 900 124px var(--Roboto);
+  margin-bottom: -10px;
+}
+.time-widget p {
+  font: 600 28px var(--Oxygen);
+}
+
+.search-widget {
+  margin: 10px auto;
+  padding: 10px 5px;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 90%;
+  background-color: aliceblue;
+}
+.search-widget form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.search-widget form button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.search-widget form input {
+  height: 35px;
+  width: 85%;
+  background-color: transparent;
+  font: 18px var(--Oxygen);
+  padding: 0px 5px;
+  border: none;
+  outline: none;
+}
+.search-widget form input:hover + .search-widget {
+  box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3764705882);
+}
+.search-widget form input::-moz-placeholder {
+  color: #000000;
+  opacity: 0.7;
+}
+.search-widget form input::placeholder {
+  color: #000000;
+  opacity: 0.7;
+}
+.search-widget form #container:hover > #cube {
+  background-color: yellow;
+}
+.search-widget form ion-icon {
+  font-size: 24px;
+}
+
+.verticalmenu {
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 50px;
+  padding: 20px 0px;
+  border-radius: 20px 0px 0px 20px;
+  position: absolute;
+  border: 1px solid #ccc;
+  right: 0px;
+  top: 20vh;
+  text-align: center;
+  transition: box-shadow 0.1s;
+  background-color: rgba(255, 255, 255, 0.4431372549);
+}
+.verticalmenu:hover {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3215686275);
+}
+.verticalmenu div {
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.verticalmenu div:hover {
+  background-color: #ececec;
+}
+.verticalmenu ion-icon {
+  font-size: 30px;
+  margin: 10px auto;
+}/*# sourceMappingURL=style.css.map */
