@@ -3,6 +3,21 @@ let apppanale = document.getElementsByClassName("app")[0];
 
 let appopend = [true, "taskapp"];
 
+
+
+if (localStorage.getItem("notebuttons") == null) {
+  const xhr = new XMLHttpRequest();
+console.log("notesbutoon done")
+  xhr.open("GET", "../files/notebuttons.txt");
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      const text = xhr.responseText;
+      localStorage.setItem("notebuttons", text);
+    }
+  };
+  xhr.send();
+}
+
 function appopener(appname) {
   let appcode = localStorage.getItem(appname);
   if (appopend[0] && appopend[1] == appname) {
@@ -127,11 +142,13 @@ function fileopener(uid) {
       filediv.classList.add("fileopener");
       let heading = document.createElement("h3");
       let para = document.createElement("p");
+      let notebuttons = localStorage.getItem("notebuttons");
       para.innerHTML = makeHTML(allFiles[key].notebody);
       console.log("para    " + para.innerHTML);
       heading.innerText = allFiles[key].heading;
       filediv.appendChild(heading);
       filediv.appendChild(para);
+      filediv.innerHTML += notebuttons;
       appMenu.innerHTML = "";
       appMenu.appendChild(filediv);
     }
