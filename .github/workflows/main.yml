@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      ["master"]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          mkdir dist
+          mkdir dist/src
+          mkdir dist/css
+          mkdir dist/files
+          npm i -g terser cssnano
+
+          for file in src/*; do
+            if [ -f "$file" ]; then
+              file_name=$(basename "$file")
+
+              terser "$file" -o "dist/src/$file_name"
+
+              echo "Minified $file_name"
+            fi
+          done
+
+          for file in "$source_dir"/*.css; do
+            if [ -f "$file" ]; then
+              file_name=$(basename "$file")
+
+              cssnano "$file" --output "$destination_dir/$file_name"
+
+              echo "Minified $file_name"
+            fi
+          done
+
+          cp -r files dist/
+          cp index.html dist/
+          cp LICENSE dist/
+          tree dist
+
+      - name: Deploy
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

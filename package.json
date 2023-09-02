@@ -1,0 +1,28 @@
+{
+  "name": "chrome-home-page",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "sass css:css",
+    "build:watch": "sass --watch css:css",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheOrangehat/chrome_home_page.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheOrangehat/chrome_home_page/issues"
+  },
+  "homepage": "https://github.com/TheOrangehat/chrome_home_page#readme",
+  "devDependencies": {
+    "sass": "^1.66.1"
+  },
+  "dependencies": {
+    "prettier": "^3.0.3"
+  }
+}
