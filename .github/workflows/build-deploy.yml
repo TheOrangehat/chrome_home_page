@@ -30,11 +30,11 @@ jobs:
             fi
           done
 
-          for file in "$source_dir"/*.css; do
+          for file in css/*.css; do
             if [ -f "$file" ]; then
               file_name=$(basename "$file")
 
-              cssnano "$file" --output "$destination_dir/$file_name"
+              cssnano "$file" --output "dist/css/$file_name"
 
               echo "Minified $file_name"
             fi
@@ -42,6 +42,7 @@ jobs:
 
           cp -r files dist/
           cp index.html dist/
+          cp css/*.css.map dist/css/
           cp LICENSE dist/
           tree dist
 
