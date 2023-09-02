@@ -18,7 +18,8 @@ jobs:
           mkdir dist/src
           mkdir dist/css
           mkdir dist/files
-          npm i -g terser cssnano
+          npm i -g terser
+          npm i -g cssnano
 
           for file in src/*; do
             if [ -f "$file" ]; then
