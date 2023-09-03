@@ -47,7 +47,7 @@ jobs:
 
           cp -r files dist/
           cp index.html dist/
-          cp img/* dist/img/*
+          cp -r img dist/
           cp css/*.css.map dist/css/
           cp LICENSE dist/
           tree dist
