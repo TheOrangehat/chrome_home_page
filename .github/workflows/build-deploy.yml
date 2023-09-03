@@ -20,7 +20,7 @@ jobs:
           mkdir dist
           mkdir dist/src
           mkdir dist/css
-          mkdir diat/img
+          mkdir dist/img
           mkdir dist/files
           npm i -g terser
           npm i -g uglifycss
