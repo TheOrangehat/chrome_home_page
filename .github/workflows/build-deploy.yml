@@ -14,9 +14,11 @@ jobs:
 
       - name: Build
         run: |
+          npm run build
           mkdir dist
           mkdir dist/src
           mkdir dist/css
+          mkdir diat/img
           mkdir dist/files
           npm i -g terser
           npm i -g uglifycss
@@ -43,6 +45,7 @@ jobs:
 
           cp -r files dist/
           cp index.html dist/
+          cp img/* dist/img/*
           cp css/*.css.map dist/css/
           cp LICENSE dist/
           tree dist
