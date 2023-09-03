@@ -1,0 +1,61 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: |
+          mkdir dist
+          mkdir dist/src
+          mkdir dist/css
+          mkdir dist/img
+          mkdir dist/files
+          npm i -g terser
+          npm i -g uglifycss
+
+          for file in src/*; do
+            if [ -f "$file" ]; then
+              file_name=$(basename "$file")
+
+              terser "$file" -o "dist/src/$file_name"
+
+              echo "Minified $file_name"
+            fi
+          done
+
+          for file in css/*.css; do
+            if [ -f "$file" ]; then
+              file_name=$(basename "$file")
+
+              uglifycss "$file" > "dist/css/$file_name"
+
+              echo "Minified $file_name"
+            fi
+          done
+
+          cp -r files dist/
+          cp index.html dist/
+          cp -r img dist/
+          cp css/*.css.map dist/css/
+          cp LICENSE dist/
+          tree dist
+
+      - name: Deploy
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
