@@ -19,7 +19,7 @@ jobs:
           mkdir dist/css
           mkdir dist/files
           npm i -g terser
-          npm i -g ug
+          npm i -g uglifycss
 
           for file in src/*; do
             if [ -f "$file" ]; then
@@ -35,7 +35,7 @@ jobs:
             if [ -f "$file" ]; then
               file_name=$(basename "$file")
 
-              cssnano "$file" --output "dist/css/$file_name"
+              uglifycss "$file" > "dist/css/$file_name"
 
               echo "Minified $file_name"
             fi
