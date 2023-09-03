@@ -18,7 +18,7 @@ Welcome to Chrome Home Page, a custom HTML, CSS, and JavaScript solution designe
 
 ## Contributing
 
-Contributions are welcome! If you'd like to improve this project or report issues, please open an [issue](https://github.com/TheOrangehat/chrome_home_page/issues) or submit a [pull request](https://github.com/TheOrangehat/chrome_home_page/pulls).
+Contributions are welcome! If you'd like to improve this project or report issues, please open an [issue](issues) or submit a [pull request](pulls).
 
 ## License
 
