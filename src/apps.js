@@ -10,21 +10,19 @@ const appState = {
 };
 
 const fetchAppCode = async (appName) => {
-  try {
-    const res = await fetch(`../files/{appName}.txt`);
-    const text = await res.text();
-    localStorage.setItem(appName, text);
-    return text;
-  } catch (e) {}
+  const res = await fetch("../files/{appName}.txt");
+  const text = await res.text();
+  localStorage.setItem(appName, text);
+  return text;
 };
 
-if (!localStorage.getItem("notebuttons")) fetchNotebuttions("notebuttions");
+if (!localStorage.getItem("notebuttons")) fetchAppCode("notebuttions");
 
 const openApps = (appName) => {
   let appCode = localStorage.getItem(appName);
   if (appState.opened && appState.name == appName) {
     closeApps();
-    appopend.opened = false;
+    appState.opened = false;
   } else {
     if (appCode) {
       appPanel.innerHTML = appCode;
@@ -119,8 +117,8 @@ const openFile = (uid) => {
       const heading = document.createElement("h3");
       const para = document.createElement("p");
       const notebuttons = localStorage.getItem("notebuttons");
-      para.innerHTML = makeHTML(allFiles[key].notebody);
-      heading.innerText = allFiles[key].heading;
+      para.innerHTML = makeHTML(file.notebody);
+      heading.innerText = file.heading;
       fileDiv.appendChild(heading);
       fileDiv.appendChild(para);
       fileDiv.innerHTML += notebuttons;

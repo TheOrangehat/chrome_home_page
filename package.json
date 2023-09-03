@@ -6,7 +6,8 @@
   "scripts": {
     "build": "sass css:css",
     "build:watch": "sass --watch css:css",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,24 @@
   },
   "homepage": "https://github.com/TheOrangehat/chrome_home_page#readme",
   "devDependencies": {
+    "eslint": "^8.48.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
     "sass": "^1.66.1"
   },
-  "dependencies": {
-    "prettier": "^3.0.3"
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "eslint . --fix --ignore-pattern \"*.json\"",
+      "prettier --write ."
+    ],
+    "**/*": [
+      "prettier --write ."
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

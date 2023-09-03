@@ -1,0 +1,6 @@
+package*.json
+css/*.css*
+dist
+node_modules
+.husky
+.prettierignore
