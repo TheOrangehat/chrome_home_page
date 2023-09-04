@@ -4,11 +4,11 @@ const f = document.getElementById("form");
 
 alert("This website is under devlopment some features may not work.");
 
-//for google search
+// for google search
 function submitted(event) {
   event.preventDefault();
   const url = google + "+" + q.value;
-  window.open(url, "_self");
+  const win = window.open(url, "_self");
   win.focus();
 }
 
