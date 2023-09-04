@@ -1,36 +1,43 @@
-const timeEl = document.getElementById("time");
-const dayEl = document.getElementById("day");
+function get_time() {
+  let now = new Date();
 
-const days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+  let hour = now.getHours();
+  let minute = now.getMinutes();
 
-function getTime() {
-  const now = new Date();
+  if (minute < 10) {
+    minute = "0" + minute;
+  }
 
-  const hour = now.getHours();
-  const minute = String(now.getMinutes());
-
-  return hour + ":" + (minute.length == 1 ? "0" + minute : minute);
+  return hour + ":" + minute;
 }
 
-setInterval(() => {
-  let time = getTime();
+try {
+  let interval = setInterval(function () {
+    let time = get_time();
 
-  timeEl.textContent = time;
-}, 100);
+    document.getElementById("time").innerHTML = time;
+  }, 600);
+} catch (e) {
+  console.log(e);
+}
 
 function getDay() {
-  const now = new Date();
-  const day = now.getDay();
+  let now = new Date();
+
+  let day = now.getDay();
+
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   return days[day];
 }
 
-dayEl.textContent = getDay();
+let day = getDay();
+document.getElementById("day").innerHTML = day;

@@ -1,154 +1,181 @@
-const appMenu = document.querySelector(".appMenu");
-const appPanel = document.querySelector(".app");
-const notepadTextEl = document.getElementById("notepadText");
-const notepadHeadingEl = document.getElementById("notepadHeading");
-const taskInput = document.getElementById("taskinput");
+let appMenu = document.getElementsByClassName("appMenu")[0];
+let apppanale = document.getElementsByClassName("app")[0];
 
-const appState = {
-  opened: true,
-  name: "taskapp",
-};
+let appopend = [true, "taskapp"];
 
-const fetchAppCode = async (appName) => {
-  const res = await fetch("../files/{appName}.txt");
-  const text = await res.text();
-  localStorage.setItem(appName, text);
-  return text;
-};
+if (localStorage.getItem("notebuttons") == null) {
+  const xhr = new XMLHttpRequest();
+  console.log("notesbutoon done");
+  xhr.open("GET", "../files/notebuttons.txt");
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      const text = xhr.responseText;
+      localStorage.setItem("notebuttons", text);
+    }
+  };
+  xhr.send();
+}
 
-if (!localStorage.getItem("notebuttons")) fetchAppCode("notebuttions");
-
-const openApps = (appName) => {
-  let appCode = localStorage.getItem(appName);
-  if (appState.opened && appState.name == appName) {
-    closeApps();
-    appState.opened = false;
+function appopener(appname) {
+  let appcode = localStorage.getItem(appname);
+  if (appopend[0] && appopend[1] == appname) {
+    closeapps();
+    appopend = [false, appname];
   } else {
-    if (appCode) {
-      appPanel.innerHTML = appCode;
+    if (appcode) {
+      apppanale.innerHTML = localStorage.getItem(appname);
       console.log("from local");
     } else {
-      fetchAppCode(appName).then((appCode) => {
-        appPanel.innerHTML = appCode;
-      });
+      const xhr = new XMLHttpRequest();
+
+      xhr.open("GET", "../files/" + appname + ".txt");
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const text = xhr.responseText;
+          console.log(text);
+          apppanale.innerHTML = text;
+          localStorage.setItem(appname, text);
+        }
+      };
+      xhr.send();
     }
-    appState.opened = true;
-    appState.name = appName;
-    updateList(appName);
+    appopend = [true, appname];
+    listupdater(appname);
   }
-};
+}
 
-const saveNote = () => {
-  const notebody = notepadTextEl.value;
-  const heading = notepadHeadingEl.value;
-  !localStorage.getItem("notes") && localStorage.setItem("notes", "{}");
-  const notes = JSON.parse(localStorage.getItem("notes"));
-  const noteid = generateUid();
+function notesaver() {
+  let notepadText = document.getElementById("notepadText").value;
+  let heading = document.getElementById("notepadHeading").value;
+  if (localStorage.getItem("Notes") == null) {
+    localStorage.setItem("Notes", "{}");
+  }
+  let Notes = JSON.parse(localStorage.getItem("Notes"));
+  let rawnote = {};
 
-  notes[noteid] = {
-    heading,
-    notebody,
-    noteid,
-  };
+  rawnote.heading = heading;
+  rawnote.notebody = notepadText;
+  rawnote.noteid = uid();
 
-  localStorage.setItem("notes", JSON.stringify(notes));
+  console.log(rawnote);
 
-  updateList("notesapp");
-};
+  Notes[uid()] = rawnote;
+  localStorage.setItem("Notes", JSON.stringify(Notes));
 
-const saveTask = () => {
-  const tasktext = taskInput.value;
-  const taskid = generateUid();
-  !localStorage.getItem("tasks") && localStorage.setItem("tasks", "{}");
-  const tasks = JSON.parse(localStorage.getItem("tasks"));
+  listupdater("notesapp");
+}
 
-  tasks[taskid] = {
-    tasktext,
-    status: 0,
-    taskid,
-  };
+function tasksaver() {
+  let tasktext = document.getElementById("taskinput").value;
+  let taskid = uid();
+  if (localStorage.getItem("Tasks") == null) {
+    localStorage.setItem("Tasks", "{}");
+  }
+  let Tasks = JSON.parse(localStorage.getItem("Tasks"));
+  let rawtask = {};
+  rawtask.tasktext = tasktext;
+  rawtask.taskstatus = 0;
+  rawtask.taskid = taskid;
+  Tasks[taskid] = rawtask;
+  localStorage.setItem("Tasks", JSON.stringify(Tasks));
 
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  updateList("taskapp");
-};
+  listupdater("taskapp");
+}
 
-const updateList = (appName) => {
-  if (appName == "notesapp") {
-    !localStorage.getItem("notes") && localStorage.setItem("notes", "{}");
-
-    const notes = JSON.parse(localStorage.getItem("notes"));
-    const notesList = document.createElement("div");
+function listupdater(f) {
+  if (f == "notesapp") {
+    if (localStorage.getItem("Notes") == null) {
+      localStorage.setItem("Notes", "{}");
+    }
+    let Notes = JSON.parse(localStorage.getItem("Notes"));
+    let notesList = document.createElement("div");
     notesList.classList.add("notesList");
 
-    for (const note of notes) {
-      notesList.innerHTML += `<div class="note" onclick="openFile(this.getAttribute('noteid'), this.className)" noteid="${note.noteid}">
-    <h3>${note.heading}</h3>
+    for (let note in Notes) {
+      let heading = Notes[note].heading;
+      let noteid = Notes[note].noteid;
+      console.log(Notes[note]);
+      notesList.innerHTML += `<div class="note" onclick="fileopener(this.getAttribute('noteid'), this.className)" noteid="${noteid}">
+    <h3>${heading}</h3>
     <span><ion-icon name="trash-outline"></ion-icon></span>
 </div>`;
     }
     appMenu.innerHTML = "";
     appMenu.appendChild(notesList);
-  } else if (appName == "taskapp") {
-    !localStorage.getItem("tasks") && localStorage.setItem("tasks", "{}");
-
-    const tasks = JSON.parse(localStorage.getItem("tasks"));
-    taskList.innerHTML = "";
-    const taskList = document.createElement("div");
+  } else if (f == "taskapp") {
+    if (localStorage.getItem("Tasks") == null) {
+      localStorage.setItem("Tasks", "{}");
+    }
+    let Tasks = JSON.parse(localStorage.getItem("Tasks"));
+    // taskList.innerHTML = "";
+    let taskList = document.createElement("div");
     taskList.classList.add("taskList");
-    for (const task of tasks) {
-      const icon = task.status == 0 ? "square-outline" : "checkbox-outline";
-      const doneclass = task.status == 0 ? "" : "done";
+    for (let task in Tasks) {
+      let heading = Tasks[task].tasktext;
+      let status = Tasks[task].taskstatus;
+      let taskid = Tasks[task].taskid;
+      let icon = "square-outline";
+      let doneclass = "";
+      if (status == 0) {
+        icon = "square-outline";
+      } else if (status == 1) {
+        icon = "checkbox-outline";
+        doneclass = "done";
+      }
       taskList.innerHTML += `<div class="task ${doneclass}">
-    <h3>${task.tasktext}</h3>
-    <span><ion-icon onclick="updateTaskStatus(this.id)" id="${task.taskid}" name="${icon}"></ion-icon></span>
+    <h3>${heading}</h3>
+    <span><ion-icon onclick="taskstatusupdater(this.id)" id="${taskid}" name="${icon}"></ion-icon></span>
 </div>`;
     }
     appMenu.innerHTML = "";
     appMenu.appendChild(taskList);
   }
-};
+}
 
-const openFile = (uid) => {
-  const allFiles = JSON.parse(localStorage.getItem("notes"));
-  for (const file in allFiles) {
-    if (file.noteid == uid) {
-      const fileDiv = document.createElement("div");
-      fileDiv.classList.add("fileopener");
-      const heading = document.createElement("h3");
-      const para = document.createElement("p");
-      const notebuttons = localStorage.getItem("notebuttons");
-      para.innerHTML = makeHTML(file.notebody);
-      heading.innerText = file.heading;
-      fileDiv.appendChild(heading);
-      fileDiv.appendChild(para);
-      fileDiv.innerHTML += notebuttons;
+function fileopener(uid) {
+  let allFiles = JSON.parse(localStorage.getItem("Notes"));
+  for (key in allFiles) {
+    if (allFiles[key].noteid == uid) {
+      let filediv = document.createElement("div");
+      filediv.classList.add("fileopener");
+      let heading = document.createElement("h3");
+      let para = document.createElement("p");
+      let notebuttons = localStorage.getItem("notebuttons");
+      para.innerHTML = makeHTML(allFiles[key].notebody);
+      console.log("para    " + para.innerHTML);
+      heading.innerText = allFiles[key].heading;
+      filediv.appendChild(heading);
+      filediv.appendChild(para);
+      filediv.innerHTML += notebuttons;
       appMenu.innerHTML = "";
-      appMenu.appendChild(fileDiv);
+      appMenu.appendChild(filediv);
     }
   }
-};
+}
 
-const makeHTML = (text) => {
+function makeHTML(text) {
   const strongRegex = /\*([^\*]+)\*/g;
   const emRegex = /_([^_]+)_/g;
 
-  const html = text
-    .replace(strongRegex, "<strong>$1</strong>")
-    .replace(emRegex, "<em>$1</em>");
+  let html = text;
+  html = html.replace(strongRegex, "<strong>$1</strong>"); // change all *
+  html = html.replace(emRegex, "<em>$1</em>");
+  console.log(html);
   return html;
-};
-
-function updateTaskStatus(uid) {
-  const allTasks = JSON.parse(localStorage.getItem("Tasks"));
-
-  allTasks[uid]["taskstatus"] = 1;
-  localStorage.setItem("tasks", JSON.stringify(allTasks));
-  updateList("taskapp");
 }
 
-const closeApps = () => (appPanel.innerHTML = "");
+function taskstatusupdater(uid) {
+  let allTasks = JSON.parse(localStorage.getItem("Tasks"));
 
-const generateUid = () =>
+  console.log(allTasks[uid]);
+  allTasks[uid]["taskstatus"] = 1;
+  localStorage.setItem("Tasks", JSON.stringify(allTasks));
+  listupdater("taskapp");
+}
+
+const closeapps = () => (apppanale.innerHTML = "");
+
+const uid = () =>
   String(Date.now().toString(32) + Math.random().toString(16)).replace(
     /\./g,
     "",

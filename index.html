@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chrome home page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /
     <meta
       http-equiv="Content-Security-Policy"
       content="upgrade-insecure-requests"
     />
+    <title>Chrome home page</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/apps.css" />
     <script src="src/weather.js" defer></script>
@@ -89,13 +89,13 @@
     </div>
     <div class="main-right-container">
       <div class="verticalmenu">
-        <div onclick="openApps('notesapp')">
+        <div onclick="appopener('notesapp')">
           <ion-icon name="create-outline"></ion-icon>
         </div>
-        <div onclick="openApps('taskapp')">
+        <div onclick="appopener('taskapp')">
           <ion-icon name="clipboard-outline"></ion-icon>
         </div>
-        <div onclick="openApps('c')">
+        <div onclick="appopener('c')">
           <ion-icon name="calculator-outline"></ion-icon>
         </div>
         <div><ion-icon name="calendar-outline"></ion-icon></div>
@@ -118,7 +118,7 @@
             id="taskinput"
             placeholder="What to do next...."
           />
-          <button onclick="saveTask()">
+          <button onclick="tasksaver()">
             <ion-icon name="add-outline"></ion-icon>
           </button>
         </div>
@@ -133,9 +133,7 @@
         right: 15px;
       "
     >
-      Made with
-      <span style="font-family: Segoe UI Emoji">&#10084;</span>
-      by
+      Made with <span style="font-family: Segoe UI Emoji">&#10084;</span> by
       <a target="_blank" href="https://github.com/theorangehat"
         >@theorangehat</a
       >
