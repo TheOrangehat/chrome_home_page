@@ -3,11 +3,9 @@ let apppanale = document.getElementsByClassName("app")[0];
 
 let appopend = [true, "taskapp"];
 
-
-
 if (localStorage.getItem("notebuttons") == null) {
   const xhr = new XMLHttpRequest();
-console.log("notesbutoon done")
+  console.log("notesbutoon done");
   xhr.open("GET", "../files/notebuttons.txt");
   xhr.onload = () => {
     if (xhr.status === 200) {
@@ -180,5 +178,5 @@ const closeapps = () => (apppanale.innerHTML = "");
 const uid = () =>
   String(Date.now().toString(32) + Math.random().toString(16)).replace(
     /\./g,
-    ""
+    "",
   );
