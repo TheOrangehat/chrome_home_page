@@ -44,7 +44,7 @@ function appopener(appname) {
   }
 }
 
-function notesaver() {
+function saveNote() {
   let notepadText = document.getElementById("notepadText").value;
   let heading = document.getElementById("notepadHeading").value;
   if (localStorage.getItem("Notes") == null) {
