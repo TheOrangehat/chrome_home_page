@@ -1,5 +1,5 @@
 <div class="texteditor">
   <input type="text" name="" id="notepadHeading" placeholder="Give me Heading!">
   <textarea name="" id="notepadText" cols="30" rows="10" placeholder="Write Note here..." ></textarea>
-  <button id="noteSave" onclick="saveNote('note')">Save</button>
+  <button id="noteSave" onclick="saveNote()">Save</button>
 </div>
