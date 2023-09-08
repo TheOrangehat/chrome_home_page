@@ -5,7 +5,6 @@ const temprature = document.getElementsByClassName("temprature")[0];
 const high_low = document.getElementsByClassName("high-low")[0];
 
 function getWeather() {
-  let apiKey = "YOUR_API_KEY";
   let cityName = "Delhi";
   let url =
     "http://api.weatherapi.com/v1/current.json?key=5746d31ebbe447f8a52150653230208&q=" +
