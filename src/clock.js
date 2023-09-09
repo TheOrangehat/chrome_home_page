@@ -1,43 +1,32 @@
-function get_time() {
-  let now = new Date();
+const timeEl = document.getElementById("time");
+const dayEl = document.getElementById("day");
 
-  let hour = now.getHours();
-  let minute = now.getMinutes();
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
-  if (minute < 10) {
-    minute = "0" + minute;
-  }
+const getTime = () => {
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
 
-  return hour + ":" + minute;
-}
+  return hour + ":" + (minute < 10 ? "0" + minute : minute);
+};
 
-try {
-  let interval = setInterval(function () {
-    let time = get_time();
-
-    document.getElementById("time").innerHTML = time;
-  }, 600);
-} catch (e) {
-  console.log(e);
-}
-
-function getDay() {
-  let now = new Date();
-
-  let day = now.getDay();
-
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+const getDay = () => {
+  const now = new Date();
+  const day = now.getDay();
 
   return days[day];
-}
+};
 
-let day = getDay();
-document.getElementById("day").innerHTML = day;
+dayEl.innerHTML = getDay();
+setInterval(() => {
+  timeEl.innerHTML = getTime();
+}, 100);
