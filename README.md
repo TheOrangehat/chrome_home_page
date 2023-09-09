@@ -16,9 +16,13 @@ Welcome to Chrome Home Page, a custom HTML, CSS, and JavaScript solution designe
 2. Open the `index.html` file in your web browser to see your customized homepage.
 3. Customize the appearance and functionality of your new tab page by editing the CSS files in the `css` folder and the JavaScript files in the `src` folder according to your preferences.
 
-## Contributing
+## Contribution Guidelines
 
-Contributions are welcome! If you'd like to improve this project or report issues, please open an [issue](../../issues) or submit a [pull request](../../pulls).
+We encourage contributions! If you wish to enhance this project or report any issues, please open an [issue](../../issues) or submit a [pull request](../../pulls). Please make sure to adhere to our [Contributing Guidelines](CONTRIBUTING.md) for a smooth collaborative experience.
+
+## Code of Conduct
+
+Please review our [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a respectful and inclusive environment for all contributors.
 
 ## License
 
