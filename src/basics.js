@@ -1,15 +1,11 @@
 const q = document.getElementById("query");
-const google = "https://www.google.com/search?q=";
 const f = document.getElementById("form");
 
 alert("This website is under devlopment some features may not work.");
 
-// for google search
-function submitted(event) {
-  event.preventDefault();
-  const url = google + "+" + q.value;
+f.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const url = `https://www.google.com/search?q=${q.value}`;
   const win = window.open(url, "_self");
   win.focus();
-}
-
-f.addEventListener("submit", submitted);
+});
