@@ -1,11 +1,10 @@
 let appMenu = document.getElementsByClassName("appMenu")[0];
-let apppanale = document.getElementsByClassName("app")[0];
-
-let appopend = [true, "taskapp"];
+let appPanale = document.getElementsByClassName("app")[0];
+let activeApp = [true, "taskapp"];
 
 if (localStorage.getItem("notebuttons") == null) {
   const xhr = new XMLHttpRequest();
-  console.log("notesbutoon done");
+
   xhr.open("GET", "../files/notebuttons.txt");
   xhr.onload = () => {
     if (xhr.status === 200) {
@@ -13,17 +12,19 @@ if (localStorage.getItem("notebuttons") == null) {
       localStorage.setItem("notebuttons", text);
     }
   };
-  xhr.send();
+  xhr.send(); 
+   console.log("notesbutoon done");
 }
 
-function appopener(appname) {
+
+function appLauncher(appname) {
   let appcode = localStorage.getItem(appname);
-  if (appopend[0] && appopend[1] == appname) {
+  if (activeApp[0] && activeApp[1] == appname) {
     closeapps();
-    appopend = [false, appname];
+    activeApp = [false, appname];
   } else {
     if (appcode) {
-      apppanale.innerHTML = localStorage.getItem(appname);
+      appPanale.innerHTML = localStorage.getItem(appname);
       console.log("from local");
     } else {
       const xhr = new XMLHttpRequest();
@@ -32,19 +33,19 @@ function appopener(appname) {
       xhr.onload = () => {
         if (xhr.status === 200) {
           const text = xhr.responseText;
-          console.log(text);
-          apppanale.innerHTML = text;
+
+          appPanale.innerHTML = text;
           localStorage.setItem(appname, text);
         }
       };
       xhr.send();
     }
-    appopend = [true, appname];
-    listupdater(appname);
+    activeApp = [true, appname];
+    listUpdater(appname);
   }
 }
 
-function saveNote() {
+function saveNote() {  
   let notepadText = document.getElementById("notepadText").value;
   let heading = document.getElementById("notepadHeading").value;
   if (localStorage.getItem("Notes") == null) {
@@ -52,20 +53,20 @@ function saveNote() {
   }
   let Notes = JSON.parse(localStorage.getItem("Notes"));
   let rawnote = {};
-
+  let noteuid = uid();
   rawnote.heading = heading;
   rawnote.notebody = notepadText;
-  rawnote.noteid = uid();
+  rawnote.noteid = noteuid;
 
   console.log(rawnote);
 
-  Notes[uid()] = rawnote;
+  Notes[noteuid] = rawnote;
   localStorage.setItem("Notes", JSON.stringify(Notes));
 
-  listupdater("notesapp");
+  listUpdater("notesapp");
 }
 
-function tasksaver() {
+function saveTask() {
   let tasktext = document.getElementById("taskinput").value;
   let taskid = uid();
   if (localStorage.getItem("Tasks") == null) {
@@ -79,10 +80,10 @@ function tasksaver() {
   Tasks[taskid] = rawtask;
   localStorage.setItem("Tasks", JSON.stringify(Tasks));
 
-  listupdater("taskapp");
+  listUpdater("taskapp");
 }
 
-function listupdater(f) {
+function listUpdater(f) {
   if (f == "notesapp") {
     if (localStorage.getItem("Notes") == null) {
       localStorage.setItem("Notes", "{}");
@@ -94,10 +95,10 @@ function listupdater(f) {
     for (let note in Notes) {
       let heading = Notes[note].heading;
       let noteid = Notes[note].noteid;
-      console.log(Notes[note]);
-      notesList.innerHTML += `<div class="note" onclick="fileopener(this.getAttribute('noteid'), this.className)" noteid="${noteid}">
+      console.log("note id is " + noteid);
+      notesList.innerHTML += `<div class="note" onclick="fileOpener('${noteid}')" noteid="${noteid}">
     <h3>${heading}</h3>
-    <span><ion-icon name="trash-outline"></ion-icon></span>
+    <span onclick="fileHandler('${noteid}','trash', 'Notes')"><ion-icon name="trash-outline"></ion-icon></span>
 </div>`;
     }
     appMenu.innerHTML = "";
@@ -116,15 +117,17 @@ function listupdater(f) {
       let taskid = Tasks[task].taskid;
       let icon = "square-outline";
       let doneclass = "";
+      let donefunc = "";
       if (status == 0) {
         icon = "square-outline";
       } else if (status == 1) {
         icon = "checkbox-outline";
         doneclass = "done";
+        donefunc = `onclick="fileHandler(this.getAttribute('taskid'), 'trash', 'Tasks')"`;
       }
-      taskList.innerHTML += `<div class="task ${doneclass}">
+      taskList.innerHTML += `<div class="task ${doneclass} " ${donefunc} taskid = ${taskid} >
     <h3>${heading}</h3>
-    <span><ion-icon onclick="taskstatusupdater(this.id)" id="${taskid}" name="${icon}"></ion-icon></span>
+    <span><ion-icon onclick="taskStatusUpdater(this.id)" id="${taskid}" name="${icon}"></ion-icon></span>
 </div>`;
     }
     appMenu.innerHTML = "";
@@ -132,7 +135,7 @@ function listupdater(f) {
   }
 }
 
-function fileopener(uid) {
+function fileOpener(uid) {
   let allFiles = JSON.parse(localStorage.getItem("Notes"));
   for (key in allFiles) {
     if (allFiles[key].noteid == uid) {
@@ -142,7 +145,7 @@ function fileopener(uid) {
       let para = document.createElement("p");
       let notebuttons = localStorage.getItem("notebuttons");
       para.innerHTML = makeHTML(allFiles[key].notebody);
-      console.log("para    " + para.innerHTML);
+
       heading.innerText = allFiles[key].heading;
       filediv.appendChild(heading);
       filediv.appendChild(para);
@@ -159,21 +162,36 @@ function makeHTML(text) {
 
   let html = text;
   html = html.replace(strongRegex, "<strong>$1</strong>"); // change all *
-  html = html.replace(emRegex, "<em>$1</em>");
-  console.log(html);
+
   return html;
 }
 
-function taskstatusupdater(uid) {
+function taskStatusUpdater(uid) {
   let allTasks = JSON.parse(localStorage.getItem("Tasks"));
 
-  console.log(allTasks[uid]);
   allTasks[uid]["taskstatus"] = 1;
   localStorage.setItem("Tasks", JSON.stringify(allTasks));
-  listupdater("taskapp");
+  listUpdater("taskapp");
+
 }
 
-const closeapps = () => (apppanale.innerHTML = "");
+function fileHandler(fileid, action, filetype) {
+  let allFiles = JSON.parse(localStorage.getItem(filetype));
+  var updaterName = (filetype === "Notes") ? "notesapp" : (filetype === "Tasks") ? "taskapp" : "";
+
+
+  if (action == "trash"){
+  
+    delete allFiles[fileid]; 
+    localStorage.setItem(filetype, JSON.stringify(allFiles));
+
+    listUpdater(updaterName);
+
+  }
+}
+
+
+const closeapps = () => (appPanale.innerHTML = "");
 
 const uid = () =>
   String(Date.now().toString(32) + Math.random().toString(16)).replace(
