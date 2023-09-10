@@ -1,6 +1,7 @@
 let appMenu = document.getElementsByClassName("appMenu")[0];
 let appPanale = document.getElementsByClassName("app")[0];
 let activeApp = [true, "taskapp"];
+let closeappMenuBtn = `<button id="closeappMenuBtn" onclick="appMenu.classList.add('hide');"><ion-icon name="close-outline"></ion-icon></button>`;
 
 if (localStorage.getItem("notebuttons") == null) {
   const xhr = new XMLHttpRequest();
@@ -16,14 +17,26 @@ if (localStorage.getItem("notebuttons") == null) {
   console.log("notesbutoon done");
 }
 
-function appLauncher(appname) {
+
+function appLauncher(appname, fromedit) {
   let appcode = localStorage.getItem(appname);
-  if (activeApp[0] && activeApp[1] == appname) {
-    closeapps();
-    activeApp = [false, appname];
-  } else {
+  console.log(fromedit)
+  // if (activeApp[0] && activeApp[1] == appname) {
+  //   closeapps();
+  //   activeApp = [false, appname];
+  // } else {
     if (appcode) {
-      appPanale.innerHTML = localStorage.getItem(appname);
+      let text = localStorage.getItem(appname);
+      if (fromedit !== undefined){
+        let mtext = makeElement(text, "headingvalue", `value=${fromedit.heading}`, "Notevalue", `${fromedit.notebody}`)
+        appPanale.innerHTML = mtext;
+        console.log("excet from meme ");
+
+      }
+      else{
+        appPanale.innerHTML = text;
+
+      }
       console.log("from local");
     } else {
       const xhr = new XMLHttpRequest();
@@ -32,8 +45,16 @@ function appLauncher(appname) {
       xhr.onload = () => {
         if (xhr.status === 200) {
           const text = xhr.responseText;
+          if (fromedit !== undefined){
+            let mtext = makeElement(text, "headingvalue", `value=${fromedit.heading}`, "notevalue", `value=${fromedit.notebody}`)
+            appPanale.innerHTML = mtext;
+            console.log("excet from meme ");
 
-          appPanale.innerHTML = text;
+          }
+          else{
+            appPanale.innerHTML = text;
+
+          }
           localStorage.setItem(appname, text);
         }
       };
@@ -42,7 +63,7 @@ function appLauncher(appname) {
     activeApp = [true, appname];
     listUpdater(appname);
   }
-}
+// }
 
 function saveNote() {
   let notepadText = document.getElementById("notepadText").value;
@@ -62,6 +83,8 @@ function saveNote() {
   Notes[noteuid] = rawnote;
   localStorage.setItem("Notes", JSON.stringify(Notes));
 
+  document.getElementById("notepadText").value = "";
+  document.getElementById("notepadHeading").value = ""
   listUpdater("notesapp");
 }
 
@@ -100,7 +123,8 @@ function listUpdater(f) {
     <span onclick="fileHandler('${noteid}','trash', 'Notes')"><ion-icon name="trash-outline"></ion-icon></span>
 </div>`;
     }
-    appMenu.innerHTML = "";
+    appMenu.innerHTML = `${closeappMenuBtn}`;
+    appMenu.classList.remove("hide");
     appMenu.appendChild(notesList);
   } else if (f == "taskapp") {
     if (localStorage.getItem("Tasks") == null) {
@@ -130,7 +154,8 @@ function listUpdater(f) {
     <span><ion-icon onclick="taskStatusUpdater(this.id)" id="${taskid}" name="${icon}"></ion-icon></span>
 </div>`;
     }
-    appMenu.innerHTML = "";
+    appMenu.innerHTML = `${closeappMenuBtn}`;
+    appMenu.classList.remove("hide");
     appMenu.appendChild(taskList);
   }
 }
@@ -143,7 +168,9 @@ function fileOpener(uid) {
       filediv.classList.add("fileopener");
       let heading = document.createElement("h3");
       let para = document.createElement("p");
-      let notebuttons = localStorage.getItem("notebuttons");
+      let notebuttons = localStorage.getItem('notebuttons');
+      notebuttons = makeElement(notebuttons, "$1", uid, "$1", uid);
+
       para.innerHTML = makeHTML(allFiles[key].notebody);
 
       heading.innerText = allFiles[key].heading;
@@ -151,10 +178,41 @@ function fileOpener(uid) {
       filediv.appendChild(para);
       filediv.innerHTML += notebuttons;
       appMenu.innerHTML = "";
+    appMenu.classList.remove("hide");
       appMenu.appendChild(filediv);
     }
   }
 }
+
+
+  /**
+ * Replaces values from string.
+ * @param {string} elementCode - String in which changes will be made.
+ * @param {string} replacements - original value and replce value. {name}, "Shree Ram".
+ */
+
+
+function makeElement(elementCode, ...replacements) {
+  if (replacements.length % 2 !== 0) {
+    throw new Error("Mismatched number of original and change values");
+  }
+
+  let modifiedElementCode = elementCode;
+
+  for (let i = 0; i < replacements.length; i += 2) {
+    const originalValue = replacements[i];
+    const changeTo = replacements[i + 1];
+    modifiedElementCode = modifiedElementCode.replace(originalValue, changeTo);
+  }
+
+  return modifiedElementCode;
+}
+
+// Example usage:
+let originalHTML = '<p>This is a placeholder for {name}.</p>';
+let modifiedHTML = makeElement(originalHTML, "{name}", "John", "{age}", "30");
+
+console.log(modifiedHTML);
 
 function makeHTML(text) {
   const strongRegex = /\*([^\*]+)\*/g;
@@ -169,16 +227,36 @@ function taskStatusUpdater(uid) {
   listUpdater("taskapp");
 }
 
+  /**
+ * Handle file events.
+ * @param {string} fileid - unique ID of file.
+ * @param {string} action - action to do with file 'trash' or 'edit'.
+ * @param {string} filetype - type of file 'Tasks' or 'Notes'.
+ */
+
 function fileHandler(fileid, action, filetype) {
   let allFiles = JSON.parse(localStorage.getItem(filetype));
-  var updaterName =
-    filetype === "Notes" ? "notesapp" : filetype === "Tasks" ? "taskapp" : "";
-
-  if (action == "trash") {
-    delete allFiles[fileid];
+  var updaterName = (filetype === "Notes") ? "notesapp" : (filetype === "Tasks") ? "taskapp" : "";
+ 
+  if (action == "trash"){
+  
+    delete allFiles[fileid]; 
     localStorage.setItem(filetype, JSON.stringify(allFiles));
 
     listUpdater(updaterName);
+
+  }
+  if (action == "edit"){
+    console.log(allFiles[fileid])
+    let fromedit = {
+      heading : allFiles[fileid].heading,
+      notebody : allFiles[fileid].notebody
+
+    }
+    delete allFiles[fileid];
+    console.log("dd")
+    appLauncher('notesapp', fromedit);
+    
   }
 }
 
