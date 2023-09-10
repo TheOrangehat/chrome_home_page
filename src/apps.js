@@ -6,15 +6,15 @@ let closeappMenuBtn = `<button id="closeappMenuBtn" onclick="appMenu.classList.a
 if (localStorage.getItem("notebuttons") == null) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open("GET", "../files/notebuttons.txt");
+  xhr.open("GET", "files/notebuttons.txt");
   xhr.onload = () => {
     if (xhr.status === 200) {
       const text = xhr.responseText;
       localStorage.setItem("notebuttons", text);
     }
   };
-  xhr.send(); 
-   console.log("notesbutoon done");
+  xhr.send();
+  console.log("notesbutoon done");
 }
 
 
@@ -41,7 +41,7 @@ function appLauncher(appname, fromedit) {
     } else {
       const xhr = new XMLHttpRequest();
 
-      xhr.open("GET", "../files/" + appname + ".txt");
+      xhr.open("GET", "files/" + appname + ".txt");
       xhr.onload = () => {
         if (xhr.status === 200) {
           const text = xhr.responseText;
@@ -65,7 +65,7 @@ function appLauncher(appname, fromedit) {
   }
 // }
 
-function saveNote() {  
+function saveNote() {
   let notepadText = document.getElementById("notepadText").value;
   let heading = document.getElementById("notepadHeading").value;
   if (localStorage.getItem("Notes") == null) {
@@ -146,7 +146,8 @@ function listUpdater(f) {
       } else if (status == 1) {
         icon = "checkbox-outline";
         doneclass = "done";
-        donefunc = `onclick="fileHandler(this.getAttribute('taskid'), 'trash', 'Tasks')"`;
+        donefunc =
+          "onclick=\"fileHandler(this.getAttribute('taskid'), 'trash', 'Tasks')\"";
       }
       taskList.innerHTML += `<div class="task ${doneclass} " ${donefunc} taskid = ${taskid} >
     <h3>${heading}</h3>
@@ -215,12 +216,7 @@ console.log(modifiedHTML);
 
 function makeHTML(text) {
   const strongRegex = /\*([^\*]+)\*/g;
-  const emRegex = /_([^_]+)_/g;
-
-  let html = text;
-  html = html.replace(strongRegex, "<strong>$1</strong>"); // change all *
-
-  return html;
+  return text.replace(strongRegex, "<strong>$1</strong>");
 }
 
 function taskStatusUpdater(uid) {
@@ -229,7 +225,6 @@ function taskStatusUpdater(uid) {
   allTasks[uid]["taskstatus"] = 1;
   localStorage.setItem("Tasks", JSON.stringify(allTasks));
   listUpdater("taskapp");
-
 }
 
   /**
@@ -264,7 +259,6 @@ function fileHandler(fileid, action, filetype) {
     
   }
 }
-
 
 const closeapps = () => (appPanale.innerHTML = "");
 
