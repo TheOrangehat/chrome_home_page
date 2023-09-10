@@ -94,14 +94,15 @@
       <div><ion-icon name="calendar-outline"></ion-icon></div>
       <div><ion-icon name="tablet-landscape-outline"></ion-icon></div>
     </div>
-    <div class="appMenu">
+    <div class="appMenu hide">
       <div class="fileopener">
         <p>
           Open any app to see files. <br />
           You can make words bold by adding * in notes mini app. <br />
           *bold text*
         </p>
-      </div>
+  </div>
+      <button id="closeappMenuBtn" onclick="appMenu.classList.add('hide');"><ion-icon name="close-outline"></ion-icon></button>
     </div>
     <div class="app">
       <div class="taskapp">
@@ -119,6 +120,7 @@
         bottom: 5px;
         right: 15px;
       ">
+      <button onclick="localStorage.clear();location.reload();">Reset</button>
     Made with <span style="font-family: Segoe UI Emoji">&#10084;</span> by
     <a target="_blank" href="https://github.com/theorangehat">@theorangehat</a>
   </footer>
