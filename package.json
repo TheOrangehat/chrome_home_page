@@ -24,7 +24,7 @@
   "homepage": "https://github.com/TheOrangehat/chrome_home_page#readme",
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "eslint": "^9.8.0",
+    "eslint": "^9.9.0",
     "http-server": "^14.1.1",
     "husky": "^9.1.4",
     "lint-staged": "^15.2.8",
