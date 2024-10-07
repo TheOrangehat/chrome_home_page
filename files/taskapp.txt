@@ -1,0 +1,4 @@
+<div class="taskapp">
+  <input type="text" name="" id="taskinput" placeholder="What to do next....">
+  <button onclick="saveTask()"><ion-icon name="add-outline"></ion-icon></button>
+</div>
