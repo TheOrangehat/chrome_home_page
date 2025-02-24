@@ -28,7 +28,7 @@
     "http-server": "^14.1.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "prettier": "^3.5.1",
+    "prettier": "^3.5.2",
     "sass": "^1.85.0"
   },
   "lint-staged": {
