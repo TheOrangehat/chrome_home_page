@@ -1,0 +1,5 @@
+        <div class="notebuttons">
+            <div id="backtolistbtn"><ion-icon name="arrow-back-outline"></ion-icon></div>
+            <div id="deletenotebtn" taskid="$1" onclick="fileHandler(this.getAttribute('taskid'), 'trash', 'Notes')"><ion-icon name="trash-outline"></ion-icon></div>
+            <div id="editnotebtn" taskid="$1" onclick="fileHandler(this.getAttribute('taskid'), 'edit', 'Notes')"><ion-icon name="color-wand-outline"></ion-icon></div>
+        </div>
