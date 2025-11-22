@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <title>Chrome home page</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <script src="src/weather.js" defer></script>
+  <script src="src/clock.js" defer></script>
+  <script src="src/basics.js" defer></script>
+  <script src="src/apps.js" defer></script>
+</head>
+
+<body>
+  <div class="main-left-container">
+    <div id="weather" class="weather-widget">
+      <div class="condition-text">Cloudy</div>
+      <div class="city"></div>
+      <div class="condition-icon">
+        <img src="http://cdn.weatherapi.com/weather/64x64/day/116.png" alt="" />
+      </div>
+      <div class="temprature">58&deg;</div>
+      <div class="high-low">12&deg;/ 59&deg;</div>
+      <div class="extra"></div>
+    </div>
+    <div class="shortcuts-widget">
+      <div class="shortcut">
+        <a href="https://www.google.com" alt="google">
+          <img
+            src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+            alt="google" />
+        </a>
+      </div>
+      <div class="shortcut">
+        <a href="https://www.youtube.com" alt="youtube">
+          <img
+            src="https://lh3.googleusercontent.com/3_OFn2skqHXk-UQ-9RUdNrDl_HQJrMCxks5teQcUrF_bOSeDG1hD8j83FeD31W8hASZCvubzsGfumuJq8kvvSAq03wY87RZ7Otx_DF4"
+            alt="youtube" />
+        </a>
+      </div>
+      <div class="shortcut">
+        <a href="https://mail.google.com" alt="gmail">
+          <img
+            src="https://lh3.googleusercontent.com/0rpHlrX8IG77awQMuUZpQ0zGWT7HRYtpncsuRnFo6V3c8Lh2hPjXnEuhDDd-OsLz1vua4ld2rlUYFAaBYk-rZCODmi2eJlwUEVsZgg"
+            alt="gmail" />
+        </a>
+      </div>
+      <div class="shortcut">
+        <a href="https://drive.google.com" alt="google-drive">
+          <img
+            src="https://lh3.googleusercontent.com/rCwHBRBJV4wFiEIN_Mlboj94_TGJxyJtBh-MBFL4y1aZdO4hb7_Uc_PpXRyAoN7O9m_Zc1wSyp3H1vsnb829QE7t9KyGNJY9A1a3QQ"
+            alt="google-drive" />
+        </a>
+      </div>
+      <div class="shortcut">
+        <a href="https://bard.google.com" alt="google-bard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg" alt="google-bard" />
+        </a>
+      </div>
+    </div>
+
+  </div>
+  <div class="main-center-container">
+    <div class="time-widget">
+      <h1 id="time"></h1>
+      <p id="day">scripts are loading or not working</p>
+    </div>
+    <div class="search-widget">
+      <form id="form" autocomplete="off">
+        <ion-icon name="logo-google"></ion-icon>
+        <input type="search" id="query" name="q" placeholder="Search..." aria-label="Search Google..." />
+
+        <button type="submit">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="main-right-container">
+    <div class="verticalmenu">
+      <div onclick="appLauncher('notesapp')">
+        <ion-icon name="create-outline"></ion-icon>
+      </div>
+      <div onclick="appLauncher('taskapp')">
+        <ion-icon name="clipboard-outline"></ion-icon>
+      </div>
+      <div onclick="appLauncher('c')">
+        <ion-icon name="calculator-outline"></ion-icon>
+      </div>
+      <div><ion-icon name="calendar-outline"></ion-icon></div>
+      <div><ion-icon name="tablet-landscape-outline"></ion-icon></div>
+    </div>
+    <div class="appMenu hide">
+      <div class="fileopener">
+        <p>
+          Open any app to see files. <br />
+          You can make words bold by adding * in notes mini app. <br />
+          *bold text*
+        </p>
+  </div>
+      <button id="closeappMenuBtn" onclick="appMenu.classList.add('hide');"><ion-icon name="close-outline"></ion-icon></button>
+    </div>
+    <div class="app">
+      <div class="taskapp">
+        <input type="text" name="" id="taskinput" placeholder="What to do next...." />
+        <button onclick="saveTask()">
+          <ion-icon name="add-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer style="
+        font-family: monospace;
+        position: absolute;
+        bottom: 5px;
+        right: 15px;
+      ">
+      <button onclick="localStorage.clear();location.reload();">Reset</button>
+    Made with <span style="font-family: Segoe UI Emoji">&#10084;</span> by
+    <a target="_blank" href="https://github.com/theorangehat">@theorangehat</a>
+  </footer>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
